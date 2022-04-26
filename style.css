@@ -1,0 +1,83 @@
+
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;800&family=Space+Mono&display=swap');
+
+    body {
+        background: #f0f5f9;
+        font-family: 'Montserrat', sans-serif;
+    }
+
+    .box {
+        max-width: 100%;
+    }
+
+    .title {
+
+        font-weight: 800;
+        color: #3a3a47;
+    }
+
+    .hide {
+        display: none;
+    }
+
+    .button {
+        line-height: 30px;
+        color: #ffffff;
+        padding: 0 15px;
+        border-radius: 15px;
+        background: #4c5aff;
+        border: 1px solid #6d6b98cf;
+        cursor: pointer;
+        font-family: 'Montserrat', sans-serif;
+        font-size: unset;
+        text-align: center;
+        text-decoration: none;
+        text-emphasis: none;
+    }
+
+    .button:hover {
+        color: #ffffff;
+        background-color: #2233f7;
+    }
+
+
+    .button-group a.active {
+        color: #07a287;
+        cursor: default;
+    }
+
+    .button-group {
+        border: 1px solid rgba(0, 0, 0, .15);
+        border-radius: 5px;
+        overflow: hidden;
+    }
+
+    .form-control:focus {
+        border-color: #28a745;
+        box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+    }
+
+    .faq {
+
+        padding: 50px 10%;
+        background: #f0f5f9
+    }
+
+
+    .faq-intro h2 {
+        font-size: 32px;
+        font-weight: 800;
+        color: #3a3a47;
+        line-height: 1.2;
+        margin-bottom: 15px;
+    }
+
+    .faq-intro p {
+        font-size: 18px;
+        font-weight: 400;
+        line-height: 1.6;
+        letter-spacing: 0.01em;
+        color: #6A7076;
+        margin-top: 15px;
+        margin-bottom: 25px;
+    }
