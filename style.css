@@ -81,3 +81,64 @@
         margin-top: 15px;
         margin-bottom: 25px;
     }
+
+
+    .btn-group {
+        border: 1px solid rgba(0, 0, 0, .15);
+        border-radius: 5px;
+        overflow: hidden;
+    }
+    
+    .btn-group a {
+        padding: 0 10px;
+        cursor: pointer;
+    }
+    
+    .btn-group a i {
+        font-size: 22px;
+        display: block;
+        line-height: inherit;
+    }
+    
+    .btn-group a.active {
+        color: #07a287;
+        cursor: default;
+        border: 1px solid rgba(0, 0, 0, .15);
+    }
+    
+    a:not([href]):not([tabindex]) {
+        text-decoration: none;
+    }
+    
+    .button-group a {
+        float: left;
+        padding: 0 10px;
+        cursor: pointer;
+        color: rgba(0, 0, 0, .2);
+    }
+    
+    
+    .code {
+        background: #f7f7f8;
+        padding: 10px;
+        border-radius: 3px;
+        border: 1px solid rgba(0, 0, 0, .12);
+        margin-bottom: 1em;
+        font-size: 12px;
+        font-family: 'Space Mono';
+    }
+    
+    .code b {
+        color: #ef8f2e
+    }
+    
+    .code.small {
+        padding: 1px 2px
+    }
+    
+    .code.small.select {
+        user-select: all
+    }
+    #link_tab{
+        font-size: 14px;
+    }
