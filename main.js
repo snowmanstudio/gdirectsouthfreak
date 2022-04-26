@@ -24,7 +24,7 @@ $(document).ready(function () {
   function generate() {
     var driveLink = $("#driveLinkTextArea").val()
    
-    $('#resultTextArea').text('https://dl.itsourov.com/id/'+getIdFromUrl(driveLink))
+    $('#resultTextArea').text('https://gdirect.github.io/dl/?id='+getIdFromUrl(driveLink))
   }
   function getIdFromUrl(url) {
   
