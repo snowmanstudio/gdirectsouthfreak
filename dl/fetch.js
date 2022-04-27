@@ -16,9 +16,18 @@ function getFileInformation(id) {
     };
 
     fetch("https://cors-anywhere.herokuapp.com/https://drive.google.com/uc?id=" + id + "&authuser=0&export=download", requestOptions)
-        .then(response => response.text())
-        .then(response => processResponse(response))
-        .catch(error => processError(error));
+    .then(response => {
+        gotResponse()
+        if (response.ok) {
+          return response.text()
+        } else if(response.status === 404) {
+          return Promise.reject('error 404')
+        } else {
+          return Promise.reject('some other error: ' + response.status)
+        }
+      })
+      .then(data => processResponse(data))
+      .catch(error => processError( error));
 
 
 }

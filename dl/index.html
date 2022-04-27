@@ -196,28 +196,30 @@
 
         getFileInformation(fileId)
 
-        function processResponse(response) {
+        function gotResponse() {
             clearTimeout(timer);
-
-            jsonString = response.replace(')]}\'', '')
-            const obj = JSON.parse(jsonString)
-            console.log(obj)
-
             $("#loagingBox").hide(500);
             $("#tooLongAlert").hide(500);
             $("#downloadBox").show(500);
+        }
+
+        function processResponse(response) {
+
+
+            jsonString = response.replace(')]}\'', '')
+            const obj = JSON.parse(jsonString)
 
             $("#file_name").html(obj.fileName);
             $("#file_size").html(humanFileSize(obj.sizeBytes));
 
             $("#downloadUrl").show();
-                setTimeout(function () {
-                    $("#downloadUrl").attr("href", obj.downloadUrl)
-                    $("#downloadUrl").hide(100, function () {
-                        $(this).html("Download").show(100);
-                    });
+            setTimeout(function () {
+                $("#downloadUrl").attr("href", obj.downloadUrl)
+                $("#downloadUrl").hide(100, function () {
+                    $(this).html("Download").show(100);
+                });
 
-                }, 1200);
+            }, 1200);
         }
         function processError(error) {
             console.log(error)
