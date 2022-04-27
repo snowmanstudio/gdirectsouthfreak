@@ -10,55 +10,55 @@
     <title id="dl_product">Download product</title>
 
     <style>
-    .hide {
-        display: none;
-    }
+        .hide {
+            display: none;
+        }
 
-    .download-box {
-        width: 600px;
-        max-width: 90%;
+        .download-box {
+            width: 600px;
+            max-width: 90%;
 
-    }
+        }
 
-    .info-box {
-        font-size: .9em;
-        color: black;
-    }
+        .info-box {
+            font-size: .9em;
+            color: black;
+        }
 
-    .info-box span {
-        user-select: all;
-        color: gray;
-    }
+        .info-box span {
+            user-select: all;
+            color: gray;
+        }
 
-    .button {
-        line-height: 30px;
-        color: #ffffff;
-        padding: 0 15px;
-        border-radius: 15px;
-        background: #4c5aff;
-        border: 1px solid #6d6b98cf;
-        cursor: pointer;
-        font-family: 'Montserrat', sans-serif;
-        font-size: unset;
-        text-align: center;
-        text-decoration: none;
-        text-emphasis: none;
-    }
+        .button {
+            line-height: 30px;
+            color: #ffffff;
+            padding: 0 15px;
+            border-radius: 15px;
+            background: #4c5aff;
+            border: 1px solid #6d6b98cf;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            font-size: unset;
+            text-align: center;
+            text-decoration: none;
+            text-emphasis: none;
+        }
 
-    .button:hover {
-        color: #ffffff;
-        background-color: #2233f7;
-    }
-
-
+        .button:hover {
+            color: #ffffff;
+            background-color: #2233f7;
+        }
 
 
 
-    .box {
-        width: 200px;
-        height: 200px;
-        margin: auto;
-    }
+
+
+        .box {
+            width: 200px;
+            height: 200px;
+            margin: auto;
+        }
     </style>
 
 </head>
@@ -134,7 +134,9 @@
 
         <div class="alert alert-primary download-box mx-auto hide" role="alert" id="tooLongAlert">
             Taking a long Time. So here is the orginal Link : <a target="_blank"
-                href="https://drive.google.com/uc?export=download&id=<?php echo $id ;?>">https://drive.google.com/uc?export=download&id=<?php echo $id ;?></a>
+                href="https://drive.google.com/uc?export=download&id=<?php echo $id ;?>">https://drive.google.com/uc?export=download&id=
+                <?php echo $id ;?>
+            </a>
         </div>
 
         <div class="card download-box mx-auto hide" id="downloadBox" style=" ">
@@ -169,66 +171,75 @@
     <script src="https://code.jquery.com/jquery-3.6.0.js"
         integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 
+    <script src="fetch.js"></script>
     <script>
 
 
-var getUrlParameter = function getUrlParameter(sParam) {
-    var sPageURL = window.location.search.substring(1),
-        sURLVariables = sPageURL.split('&'),
-        sParameterName,
-        i;
+        var getUrlParameter = function getUrlParameter(sParam) {
+            var sPageURL = window.location.search.substring(1),
+                sURLVariables = sPageURL.split('&'),
+                sParameterName,
+                i;
 
-    for (i = 0; i < sURLVariables.length; i++) {
-        sParameterName = sURLVariables[i].split('=');
+            for (i = 0; i < sURLVariables.length; i++) {
+                sParameterName = sURLVariables[i].split('=');
 
-        if (sParameterName[0] === sParam) {
-            return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
-        }
-    }
-    return false;
-};
+                if (sParameterName[0] === sParam) {
+                    return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+                }
+            }
+            return false;
+        };
 
-var fileId = getUrlParameter('id');
-    var timer = setTimeout(tooLong, 7000);
-    $.get("https://dl.itsourov.com/api.php", {
-        id: fileId,
-    }, function(data) {
-        console.log(data)
-        $("#loagingBox").hide(500);
-        $("#tooLongAlert").hide(500);
-        $("#downloadBox").show(500);
-        $("#file_name").html(data.fileName);
-        $("#file_size").html(data.fileSize);
+        var fileId = getUrlParameter('id');
+        var timer = setTimeout(tooLong, 7000);
 
+        getFileInformation(fileId)
 
-        if (data.status == 200) {
+        function processResponse(response) {
+            clearTimeout(timer);
+
+            jsonString = response.replace(')]}\'', '')
+            const obj = JSON.parse(jsonString)
+            console.log(obj)
+
+            $("#loagingBox").hide(500);
+            $("#tooLongAlert").hide(500);
+            $("#downloadBox").show(500);
+
+            $("#file_name").html(obj.fileName);
+            $("#file_size").html(humanFileSize(obj.sizeBytes));
+
             $("#downloadUrl").show();
-            setTimeout(function() {
-                $("#downloadUrl").attr("href", data.downloadUrl)
-                $("#downloadUrl").hide(100, function() {
-                    $(this).html("Download").show(100);
-                });
-              
-            }, 1200);
-        } else {
+                setTimeout(function () {
+                    $("#downloadUrl").attr("href", obj.downloadUrl)
+                    $("#downloadUrl").hide(100, function () {
+                        $(this).html("Download").show(100);
+                    });
+
+                }, 1200);
+        }
+        function processError(error) {
+            console.log(error)
             $("#fileNotFoundAlert").show(500);
         }
 
+        function humanFileSize(size) {
+            var i = Math.floor(Math.log(size) / Math.log(1024));
+            return (size / Math.pow(1024, i)).toFixed(2) * 1 + ' ' + ['B', 'kB', 'MB', 'GB', 'TB'][i];
+        };
 
 
 
-        clearTimeout(timer);
-    });
 
+        function tooLong() {
 
-    function tooLong() {
-
-        $("#tooLongAlert").show(500);
-    }
+            $("#tooLongAlert").html(' Taking a long Time. So here is the orginal Link : <a target="_blank\" href="https://drive.google.com/uc?export=download&id=' + fileId + '">https://drive.google.com/uc?export=download&id=' + fileId + '</a>').show(500);
+        }
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
-    </script>
+        </script>
 </body>
 
 </html>
