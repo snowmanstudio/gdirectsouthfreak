@@ -25,12 +25,16 @@ function generate() {
   var driveLink = $("#driveLinkTextArea").val()
 
   $('#resultBox').show(500)
-  $('#resultTextArea').text('https://gdirect.github.io/dl/?id=' + getIdFromUrl(driveLink))
+  $('#resultTextArea').text(getIdFromUrl(driveLink))
 }
 function getIdFromUrl(url) {
 
-  var expression = url.match(/[-\w]{25,}/);
-  return expression[0]
+  if (url.match(/[-\w]{25,}/)) {
+    return 'https://gdirect.github.io/dl/?id=' +  url.match(/[-\w]{25,}/)[0];
+  }else{
+    return "bad URL"
+  }
+ 
 
 
 }
