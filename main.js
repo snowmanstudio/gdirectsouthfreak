@@ -24,6 +24,7 @@ $("#copyLink").click(function () {
 function generate() {
   var driveLink = $("#driveLinkTextArea").val()
 
+  $('#resultBox').show(500)
   $('#resultTextArea').text('https://gdirect.github.io/dl/?id=' + getIdFromUrl(driveLink))
 }
 function getIdFromUrl(url) {
