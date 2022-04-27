@@ -13,7 +13,7 @@
 
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow sticky-top">
         <div class="container">
             <a class="navbar-brand" href=""><b>File Download</b></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -24,7 +24,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="">Home</a>
+                        <a class="nav-link active" aria-current="page" href="#">Home</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#gdirect">Generate</a>
@@ -38,7 +38,10 @@
             </div>
         </div>
     </nav>
-
+    <button class="g-recaptcha" 
+    data-sitekey="reCAPTCHA_site_key" 
+    data-callback='onSubmit' 
+    data-action='submit'>Submit</button>
 
     <div class="container mt-5 pt-3">
 
@@ -216,11 +219,14 @@
     <link rel="stylesheet" href="library/nice-select/nice.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
-
-   
-
     <script src="library/bootstrap-5.0.2/js/bootstrap.bundle.min.js"></script>
     <script src="main.js"></script>
+    <script src="https://www.google.com/recaptcha/api.js"></script>
+    <script>
+        function onSubmit(token) {
+         alert("captha")
+        }
+      </script>
 </body>
 
 </html>
