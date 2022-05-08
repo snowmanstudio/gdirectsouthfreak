@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../library/bootstrap-5.0.2/css/bootstrap.min.css">
-        <title id="dl_product">Download product</title>
+    <title id="dl_product">Download product</title>
 
     <style>
         .hide {
@@ -83,7 +83,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="../#faq">FAQ</a>
                     </li>
-                   
+
                 </ul>
 
             </div>
@@ -119,7 +119,7 @@
 
 
         <div class="alert alert-primary download-box mx-auto hide" role="alert" id="tooLongAlert">
-           
+
         </div>
 
         <div class="card download-box mx-auto hide" id="downloadBox" style=" ">
@@ -150,9 +150,9 @@
 
 
 
-<script src="../library/jquery-3.6.0.min.js"></script>
-    
-    
+    <script src="../library/jquery-3.6.0.min.js"></script>
+
+
     <script>
 
 
@@ -174,34 +174,40 @@
 
         var fileId = getUrlParameter('id');
         var timer = setTimeout(tooLong, 7000);
-    $.get("https://dl.itsourov.com/api.php", {
-        id: fileId,
-    }, function(data) {
-        $("#loagingBox").hide(500);
-        $("#tooLongAlert").hide(500);
-        $("#downloadBox").show(500);
-        $("#file_name").html(data.fileName);
-        $("#file_size").html(data.fileSize);
+        $.get("https://gdrive.trickupdate.workers.dev/", {
+            id: fileId,
+        }, function (data) {
+            data = jQuery.parseJSON(data)
 
 
-        if (data.status == 200) {
-            $("#downloadUrl").show();
-            setTimeout(function() {
-                $("#downloadUrl").attr("href", data.downloadUrl)
-                $("#downloadUrl").hide(100, function() {
-                    $(this).html("Download").show(100);
-                });
-            
-            }, 1200);
-        } else {
-            $("#fileNotFoundAlert").show(500);
-        }
+            const statusCode = data.status
+            data = jQuery.parseJSON(data.content.replace(')]}\'', ''))
+
+            $("#loagingBox").hide(500);
+            $("#tooLongAlert").hide(500);
+            $("#downloadBox").show(500);
+            $("#file_name").html(data.fileName);
+            $("#file_size").html(formatSizeUnits(data.sizeBytes));
+
+            console.log(data)
+            if (statusCode == 200) {
+                $("#downloadUrl").show();
+                setTimeout(function () {
+                    $("#downloadUrl").attr("href", data.downloadUrl)
+                    $("#downloadUrl").hide(100, function () {
+                        $(this).html("Download").show(100);
+                    });
+
+                }, 1200);
+            } else {
+                $("#fileNotFoundAlert").show(500);
+            }
 
 
 
 
-        clearTimeout(timer);
-    });
+            clearTimeout(timer);
+        });
 
 
 
@@ -209,8 +215,51 @@
 
             $("#tooLongAlert").html(' Taking a long Time. So here is the orginal Link : <a target="_blank\" href="https://drive.google.com/uc?export=download&id=' + fileId + '">https://drive.google.com/uc?export=download&id=' + fileId + '</a>').show(500);
         }
+
+        function formatSizeUnits(bytes) {
+            if (bytes >= 1073741824) {
+                bytes = number_format(bytes / 1073741824, 2) + ' GB';
+            } else if (bytes >= 1048576) {
+                bytes = number_format(bytes / 1048576, 2) + ' MB';
+            } else if (bytes >= 1024) {
+                bytes = number_format(bytes / 1024, 2) + ' KB';
+            } else if (bytes > 1) {
+                bytes = bytes + ' bytes';
+            } else if (bytes == 1) {
+                bytes = bytes + ' byte';
+            } else {
+                bytes = '0 bytes';
+            }
+
+            return bytes;
+        }
+
+        function number_format (number, decimals, dec_point, thousands_sep) {
+    // Strip all characters but numerical ones.
+    number = (number + '').replace(/[^0-9+\-Ee.]/g, '');
+    var n = !isFinite(+number) ? 0 : +number,
+        prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
+        sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
+        dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
+        s = '',
+        toFixedFix = function (n, prec) {
+            var k = Math.pow(10, prec);
+            return '' + Math.round(n * k) / k;
+        };
+    // Fix for IE parseFloat(0.55).toFixed(0) = 0;
+    s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
+    if (s[0].length > 3) {
+        s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
+    }
+    if ((s[1] || '').length < prec) {
+        s[1] = s[1] || '';
+        s[1] += new Array(prec - s[1].length + 1).join('0');
+    }
+    return s.join(dec);
+}
+
     </script>
-  <script src="../library/bootstrap-5.0.2/js/bootstrap.bundle.min.js"></script>
+    <script src="../library/bootstrap-5.0.2/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
