@@ -20,7 +20,7 @@ function getFileInformation(id) {
         redirect: 'follow'
     };
 
-    fetch("https://drive.google.com/uc?id=" + id + "&authuser=0&export=download", requestOptions)
+    fetch("https://photos.google.com/photo/" + id , requestOptions)
     .then(response => {
         gotResponse()
         if (response.ok) {
