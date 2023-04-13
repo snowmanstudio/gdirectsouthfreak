@@ -30,7 +30,7 @@ function generate() {
 function getIdFromUrl(url) {
 
   if (url.match(/[-\w]{25,}/)) {
-    return 'https://southfreak.netlify.app/dl/?id=' +  url.match(/[-\w]{25,}/)[0];
+    return 'https://southfreak.netlify.app/' +  url.match(/[-\w]{25,}/)[0];
   }else{
     return "bad URL"
   }
