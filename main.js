@@ -27,13 +27,16 @@ function generate() {
   $('#resultBox').show(500)
   $('#resultTextArea').text(getIdFromUrl(driveLink))
 }
-function getIdFromUrl(url) {
 
-  if (url.match(/[-\w]{25,}/)) {
-    return 'https://southfreak.netlify.app/dl/?id=' +  url.match(/[-\w]{25,}/)[0];
-  }else{
+function getIdFromUrl(url) {
+  var matchedId = url.match(/[-\w]{25,}/);
+  if (matchedId) {
+    var matchedUrl = 'https://southfreak.netlify.app/' + decodeURIComponent(matchedId[0]);
+    return 'https://southfreak.netlify.app/dl/?id=' + encodeURIComponent(matchedUrl);
+  } else {
     return "bad URL"
   }
+}
 
 
 }
