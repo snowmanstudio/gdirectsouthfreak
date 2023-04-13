@@ -25,15 +25,29 @@ function generate() {
   var driveLink = $("#driveLinkTextArea").val()
 
   $('#resultBox').show(500)
-  $('#resultTextArea').text(getIdFromUrl(driveLink))
-}
-function getIdFromUrl(url) {
-
-  if (url.match(/[-\w]{25,}/)) {
-    return 'https://southfreak.netlify.app/dl/?id=' +  url.match(/[-\w]{25,}/)[0];
-  }else{
-    return "bad URL"
+  const id = getIdFromUrl(driveLink);
+  if (id !== "bad URL") {
+    const shortID = shortenURL(id);
+    $('#resultTextArea').text(shortID);
+  } else {
+    $('#resultTextArea').text("bad URL");
   }
+}
+
+function getIdFromUrl(url) {
+  if (url.match(/[-\w]{25,}/)) {
+    return url.match(/[-\w]{25,}/)[0];
+  } else {
+    return "bad URL";
+  }
+}
+
+function shortenURL(id) {
+  const hash = CryptoJS.SHA1(id).toString();
+  const shortString = hash.slice(0, 8); // take the first 8 characters of the hash value
+  return shortString;
+}
+
  
 
 
