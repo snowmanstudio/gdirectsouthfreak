@@ -28,15 +28,13 @@ function generate() {
   $('#resultTextArea').text(getIdFromUrl(driveLink))
 }
 function getIdFromUrl(url) {
-  var matchedId = url.match(/[-\w]{25,}/);
-  if (matchedId) {
-    var matchedUrl = decodeURIComponent(matchedId[0]);
-    return 'https://southfreak.netlify.app/dl/?id=' + matchedUrl;
-  } else {
+
+  if (url.match(/[-\w]{25,}/)) {
+    return 'https://southfreak.netlify.app/dl/?id=' +  url.match(/[-\w]{25,}/)[0];
+  }else{
     return "bad URL"
   }
-}
-
+ 
 
 
 }
